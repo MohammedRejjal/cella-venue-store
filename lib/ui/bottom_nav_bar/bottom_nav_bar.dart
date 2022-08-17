@@ -34,7 +34,7 @@ class BottomBar extends StatelessWidget {
         title: const Text("Cell Avenue Store"),
       ),
       bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(21)),
         child: BottomNavigationBar(
           items: _navBarsItems(context),
           backgroundColor: Theme.of(context).primaryColor,
