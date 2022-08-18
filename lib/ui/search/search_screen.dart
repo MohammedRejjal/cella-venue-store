@@ -9,6 +9,7 @@ import 'package:cell_avenue_store/utilities/constants.dart';
 import 'package:cell_avenue_store/utilities/general.dart';
 import 'package:cell_avenue_store/utilities/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -25,12 +26,67 @@ class SearchScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
+          SizedBox(height: 10,),
           SearchTextField(readonly: false),
-          Expanded(child: BuildGrid())
+          SizedBox(height: 10,),
+          _buildGridProduct(context),
+          // Expanded(child: BuildGrid())
         ],
       ),
     );
   }
+}
+
+_buildGridProduct(context){
+  var viewModel = Provider.of<SearchProvider>(context);
+  return Expanded(
+    child: Column(
+      children: [
+        if(viewModel.textSearch.isNotEmpty)
+          Expanded(
+            child: FutureBuilder(
+              future: viewModel.searchProduct(context),
+              builder: (_, AsyncSnapshot<List<Product>> snapshot) {
+                if (snapshot.hasData && viewModel.products.isNotEmpty) {
+                  return GridView.builder(
+                    physics: BouncingScrollPhysics(),
+                    controller: viewModel.scrollController,
+                    itemCount: viewModel.products.length,
+                    scrollDirection: Axis.vertical,
+                    gridDelegate:
+                    SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: .78,
+                      crossAxisCount: 2,
+                    ),
+                    itemBuilder: (context, index) {
+                      return ProdectsCart(
+                        product: viewModel.products[index],
+                      );
+                    },
+                  );
+                }else if(snapshot.hasData && viewModel.products.isEmpty && snapshot.connectionState == ConnectionState.done)
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset('assets/files/search.json',width: 250,height: 250),
+                        Text(General.getTranslatedText(context, 'searchNotFound'),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)
+                      ],
+                    ),
+                  );
+                return Center(
+                  child: Loading(),
+                );
+              },
+            ),
+          ),
+        if(viewModel.isLoading)
+          Center(
+            child: Loading(),
+          ),
+      ],
+    ),
+  );
 }
 
 class BuildGrid extends StatelessWidget {
@@ -41,20 +97,18 @@ class BuildGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var viewModelSearch = Provider.of<SearchProvider>(context);
-
     return viewModelSearch.products.isNotEmpty
-        ? FutureBuilder<List<Product>?>(
-            future: viewModelSearch.searchProduct(
-                viewModelSearch.textSearch, context),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data != null) {
-                  return Container(
-                    height: getScreenHeight() / 3,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: GridView.builder(
+        ? Expanded(
+          child: FutureBuilder<List<Product>>(
+              future: viewModelSearch.searchProduct(context),
+              builder: (BuildContext context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data != null) {
+                    return Container(
+                      height: getScreenHeight() / 3,
+                      child: Column(
+                        children: [
+                          GridView.builder(
                             physics: BouncingScrollPhysics(),
                             controller: viewModelSearch.scrollController,
                             itemCount: viewModelSearch.products.length,
@@ -70,22 +124,22 @@ class BuildGrid extends StatelessWidget {
                               );
                             },
                           ),
-                        ),
-                        Visibility(
-                          visible: viewModelSearch.isLoading,
-                          child: Loading(),
-                        ),
-                      ],
-                    ),
-                  );
+                          Visibility(
+                            visible: viewModelSearch.isLoading,
+                            child: Loading(),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return General.showErrorDialog(context, "No data");
+                  }
                 } else {
-                  return General.showErrorDialog(context, "No data");
+                  return Center(child: Loading());
                 }
-              } else {
-                return Center(child: Loading());
-              }
-            },
-          )
+              },
+            ),
+        )
         : SizedBox();
   }
 }

@@ -74,10 +74,10 @@ class HomeView extends StatelessWidget {
         child: TextField(
           textInputAction: TextInputAction.search,
           readOnly: true,
-          onTap: () {
-            Navigator.push(
+          onTap: () async{
+            await Navigator.push(
                 context,
-                CupertinoPageRoute(
+                MaterialPageRoute(
                     builder: (_) => ChangeNotifierProvider(
                           create: (context) => SearchProvider(),
                           builder: (_, __) => SearchScreen(),
