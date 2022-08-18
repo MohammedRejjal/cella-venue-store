@@ -4,6 +4,7 @@ import 'package:cell_avenue_store/ui/onbording/widgets/dot.dart';
 
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar_view_model.dart';
+import 'package:cell_avenue_store/utilities/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ class OnBoardingBody extends StatelessWidget {
   List<OnBoardingContent> content;
 
   PageController _pageController = PageController(initialPage: 0);
+
   @override
   Widget build(BuildContext context) {
     var viewModel = Provider.of<OnBordingProvider>(context);
@@ -34,9 +36,6 @@ class OnBoardingBody extends StatelessWidget {
               child: SafeArea(
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 40,
-                    ),
                     Expanded(
                       flex: 7,
                       child: Container(
@@ -71,12 +70,28 @@ class OnBoardingBody extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(25.0),
-                            child: Text("${content[index].text}"),
+                            child: Text("${content[index].subText}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 30)),
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          Text("${content[index].subText}"),
+                          Column(
+                            children: [
+                              Center(
+                                  child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 22.0),
+                                child: Text(
+                                  "${content[index].text}",
+                                  maxLines: 4,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(),
+                                ),
+                              )),
+                            ],
+                          ),
                         ],
                       ),
                     )
@@ -104,20 +119,74 @@ class OnBoardingBody extends StatelessWidget {
           children: [
             viewModel.pageIndex == content.length - 1
                 ? Center(
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor,
-                            fixedSize: Size(200, 50)),
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                                  builder: (context) => ChangeNotifierProvider(
-                                        builder: (context, _) => BottomBar(),
-                                        create: (context) =>
-                                            BottomNavBarViewModel(),
-                                      )));
-                        },
-                        child: Text('Lets Go')))
+                    child: Container(
+                        height: 60,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Theme.of(context).primaryColor,
+                                Theme.of(context).accentColor,
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(25.0),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.pink.withOpacity(0.2),
+                                spreadRadius: 4,
+                                blurRadius: 10,
+                                offset: Offset(0, 3),
+                              )
+                            ]),
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ChangeNotifierProvider(
+                                            builder: (context, _) =>
+                                                BottomBar(),
+                                            create: (context) =>
+                                                BottomNavBarViewModel(),
+                                          )));
+                            },
+                            child: Text(
+                              'Lets Go',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                letterSpacing: 0.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )))
+
+                // ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //         shadowColor: Theme.of(context).accentColor,
+                //         primary: Theme.of(context).primaryColor,
+                //         fixedSize: Size(200, 50)),
+                //     onPressed: () {
+                //       Navigator.of(context)
+                //           .pushReplacement(MaterialPageRoute(
+                //               builder: (context) => ChangeNotifierProvider(
+                //                     builder: (context, _) => BottomBar(),
+                //                     create: (context) =>
+                //                         BottomNavBarViewModel(),
+                //                   )));
+                //     },
+                //     child: Text(
+                //       'Lets Go',
+                //       style: TextStyle(
+                //           color: Colors.white, fontWeight: FontWeight.bold),
+                //     )))
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
