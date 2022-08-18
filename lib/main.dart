@@ -1,3 +1,5 @@
+import 'package:cell_avenue_store/onbording/onboarding_screen.dart';
+import 'package:cell_avenue_store/splash_screen/Splashscreen.dart';
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar_view_model.dart';
 import 'package:cell_avenue_store/ui/home/home_provider.dart';
 import 'package:cell_avenue_store/ui/Home/home%20view/home_view.dart';
@@ -73,10 +75,7 @@ class MyApp extends StatelessWidget {
               bottomRight: Radius.circular(10),
             ))),
       ),
-      home: ChangeNotifierProvider(
-        builder: (context, _) => BottomBar(),
-        create: (context) => BottomNavBarViewModel(),
-      ),
+      home: SplashScreen(),
     );
   }
 }
