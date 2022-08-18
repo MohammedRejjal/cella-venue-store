@@ -35,14 +35,14 @@ class HomeView extends StatelessWidget {
           ),
           _buildSearchDesign(context),
           _buildGrid(context,
-              viewModel: viewModel, item: "on_sale=true", title: "latestItems"),
+              viewModel: viewModel, item: "", title: "latestItems"),
           SizedBox(
             height: 5,
           ),
           _buildGrid(
             context,
             viewModel: viewModel,
-            item: "",
+            item: "on_sale=true",
             title: "Offers",
           ),
           SizedBox(
@@ -74,7 +74,7 @@ class HomeView extends StatelessWidget {
         child: TextField(
           textInputAction: TextInputAction.search,
           readOnly: true,
-          onTap: () async{
+          onTap: () async {
             await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -150,6 +150,7 @@ class HomeView extends StatelessWidget {
             snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data != null) {
             if (snapshot.data!.isNotEmpty) {
+              print(title + "${snapshot.data!.length}");
               return Container(
                 height: getScreenHeight() / 2.4,
                 child: Column(

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cell_avenue_store/models/product.dart';
 import 'package:cell_avenue_store/ui/home/home_provider.dart';
 import 'package:cell_avenue_store/ui/product_details/details_screen.dart';
+import 'package:cell_avenue_store/utilities/general.dart';
 import 'package:cell_avenue_store/utilities/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,7 @@ class _ProdectsCartState extends State<ProdectsCart> {
                     borderRadius: BorderRadius.circular(20)),
                 child: Center(
                   child: Text(
-                    calculateOffer(product.regularPrice, product.price),
+                    General.getTranslatedText(context, "SpecialOffer"),
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 ),
@@ -108,9 +109,10 @@ class _ProdectsCartState extends State<ProdectsCart> {
   }
 
   String calculateOffer(String regularPrice, String salePrice) {
-    double result, sale, regular, def;
-    sale = double.parse(salePrice);
-    regular = double.parse(regularPrice);
+    double result;
+    int sale, regular, def;
+    sale = int.parse(salePrice);
+    regular = int.parse(regularPrice);
     def = regular - sale;
     result = 100 * def / regular;
     return result.toStringAsFixed(1) + "%";

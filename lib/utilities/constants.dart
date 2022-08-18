@@ -3,16 +3,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class Constants {
-  static const String BASE_URL = 'https://staging.jsscent.com';
+  static const String BASE_URL = 'https://cellavenuestore.com';
   static const String LOST_PASSWORD_WEB_URL =
       'https://staging.jsscent.com/my-account-2/lost-password';
   // static const String LOST_PASSWORD_WEB_URL = 'https://jsscent.com/my-account-2/lost-password';
   // static const String BASE_URL = 'https://jsscent.com';
   static const String BASE_AUTH_URL = '$BASE_URL/wp-json/jwt-auth/v1/token';
   static const String _consumerKey =
-      'consumer_key=ck_5a4dec3081589d9b5832a586d8e67c67b371a255';
+      'consumer_key=ck_6114d7418f75540206977b0d4868b4ad442ab343';
   static const String _consumerSecert =
-      'consumer_secret=cs_2aab80f07b9840334770ccabab7c3fee52915cea';
+      'consumer_secret=cs_f5bd3e8e305ac60c97fb49a0ee50f4efe5700529';
   static const String wooAuth = '?$_consumerKey&$_consumerSecert';
   static const String TAB_SECRET_KEY = kDebugMode
       ? 'sk_test_x2zKpqUlYH6JiFu5Z4IDg39R'

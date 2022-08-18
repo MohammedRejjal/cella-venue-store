@@ -29,7 +29,6 @@ class OnBoardingBody extends StatelessWidget {
           itemCount: content.length,
           itemBuilder: (context, index) {
             return Container(
-              color: Colors.deepPurple[50],
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: SafeArea(

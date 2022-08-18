@@ -15,21 +15,23 @@ class DetailsScreen extends StatelessWidget {
         return result;
       },
       child: Scaffold(
-        body: WebView(
-          javascriptMode: JavascriptMode.unrestricted,
-          initialUrl: url,
-          onPageFinished: (url) {
-            // controller.runJavascript(
-            //     "document.getElementsByTagName('header')[0].style.display='none'");
-            controller.runJavascript(
-                "document.getElementsByTagName('footer')[0].style.display='none'");
-          },
-          onPageStarted: (url) {
-            print(url);
-          },
-          onWebViewCreated: (c) {
-            controller = c;
-          },
+        body: SafeArea(
+          child: WebView(
+            javascriptMode: JavascriptMode.unrestricted,
+            initialUrl: url,
+            onPageFinished: (url) {
+              // controller.runJavascript(
+              //     "document.getElementsByTagName('header')[0].style.display='none'");
+              controller.runJavascript(
+                  "document.getElementsByTagName('footer')[0].style.display='none'");
+            },
+            onPageStarted: (url) {
+              print(url);
+            },
+            onWebViewCreated: (c) {
+              controller = c;
+            },
+          ),
         ),
       ),
     );

@@ -1,10 +1,14 @@
 {
   "Cell Avenue Store": "تطبيق ",
-  "latestItems": "المنتجات الاكثر طلبا",
+  "latestItems": "اجدد المنتجات",
   "MoreItem": "المزيد من المنتجات",
   "Offers": "العروض",
   "featured": "منتجات مميزة",
   "searchNotFound": "لم يتم العثور على منتجات",
-  "Search" : "أبحث"
+  "Search" : "أبحث",
+  "Home": "الصفحة الرئيسية",
+  "Cart": "السلة",
+  "Categories": "التصنيفات",
+  "SpecialOffer" : "عرض خاص"
 
 }
