@@ -1,6 +1,7 @@
 import 'package:cell_avenue_store/models/onboarding_content.dart';
-import 'package:cell_avenue_store/onbording/onBording_provider.dart';
-import 'package:cell_avenue_store/onbording/widgets/dot.dart';
+import 'package:cell_avenue_store/ui/onbording/onBording_provider.dart';
+import 'package:cell_avenue_store/ui/onbording/widgets/dot.dart';
+
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar_view_model.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:cell_avenue_store/onbording/onBording_provider.dart';
-import 'package:cell_avenue_store/onbording/onboarding_screen.dart';
+import 'package:cell_avenue_store/ui/onbording/onBording_provider.dart';
+import 'package:cell_avenue_store/ui/onbording/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';

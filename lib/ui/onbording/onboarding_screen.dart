@@ -1,5 +1,5 @@
 import 'package:cell_avenue_store/models/onboarding_content.dart';
-import 'package:cell_avenue_store/onbording/widgets/onboarding_body.dart';
+import 'package:cell_avenue_store/ui/onbording/widgets/onboarding_body.dart';
 import 'package:flutter/material.dart';
 
 class OnBoardingScreen extends StatelessWidget {
