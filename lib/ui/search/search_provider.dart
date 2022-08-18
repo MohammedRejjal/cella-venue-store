@@ -21,30 +21,22 @@ class SearchProvider with ChangeNotifier {
   //   return BuildListOfCardWidget(Items: "search=${textSearch}");
   // }
 
-  Future<List<Product>> reloadProduct(String value, context) async {
+  Future<void> reloadProduct(String value, context) async {
     products.clear();
     textSearch = value;
-    var x = searchProduct(value, context);
+    page = 1;
     notifyListeners();
-    return x;
   }
 
-  Future<List<Product>> searchProduct(String value, context) async {
+  Future<List<Product>> searchProduct(context) async {
     if (products.isNotEmpty) return products;
     this.url = Constants.BASE_URL +
         Constants.products +
         Constants.wooAuth +
         '&page=1&per_page=10&status=publish&stock_status=instock&' +
-        "search=$value";
+        "search=$textSearch";
     this.context = context;
-    await HttpRequests.httpGetRequest(
-        context,
-        Constants.BASE_URL +
-            Constants.products +
-            Constants.wooAuth +
-            '&page=1&per_page=10&status=publish&stock_status=instock&' +
-            "search=$value",
-        {}, (value, map) {
+    await HttpRequests.httpGetRequest(context, url, {}, (value, map) {
       print("object------------------------------------++");
       List list = json.decode(value);
       list.forEach((element) {
@@ -53,7 +45,7 @@ class SearchProvider with ChangeNotifier {
       totalPage = int.parse(map[Constants.TOTAL_PAGES_KEY] ?? '1');
       scrollController.addListener(_scrollListener);
     }, () {});
-    notifyListeners();
+    // notifyListeners();
     return products;
   }
 
