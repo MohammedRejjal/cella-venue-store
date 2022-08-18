@@ -94,21 +94,21 @@ class BottomBar extends StatelessWidget {
     return [
       BottomNavigationBarItem(
         icon: Icon(CupertinoIcons.shopping_cart),
-        label: "Cart",
+        label: "${General.getTranslatedText(context, "Cart")}",
         backgroundColor: Theme.of(context).accentColor,
         // activeColorPrimary: Theme.of(context).accentColor,
         // inactiveColorPrimary: CupertinoColors.white,
       ),
       BottomNavigationBarItem(
         icon: Icon(CupertinoIcons.home),
-        label: "Home",
+        label: "${General.getTranslatedText(context, "Home")}",
         backgroundColor: Theme.of(context).accentColor,
         // activeColorPrimary: Theme.of(context).accentColor,
         //     inactiveColorPrimary: CupertinoColors.white,
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.category_outlined),
-        label: "Categories",
+        label: "${General.getTranslatedText(context, "Categories")}",
         backgroundColor: Theme.of(context).accentColor,
         // activeColorPrimary: Theme.of(context).accentColor,
         //     inactiveColorPrimary: CupertinoColors.white,

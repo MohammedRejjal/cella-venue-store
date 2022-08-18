@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class Loading extends StatelessWidget {
   const Loading({Key? key}) : super(key: key);
@@ -6,10 +7,18 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 80,
-        height: 80,
-        child: Center(
-          child: CircularProgressIndicator.adaptive(),
-        ));
+      width: 120,
+      height: 120,
+      child: Lottie.asset(
+        'assets/files/loading3.json',
+      ),
+    );
+
+    // Container(
+    //   width: 80,
+    //   height: 80,
+    //   child: Center(
+    //     child: CircularProgressIndicator.adaptive(),
+    //   ));
   }
 }
