@@ -4,9 +4,11 @@ import 'package:cell_avenue_store/ui/onbording/widgets/dot.dart';
 
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar_view_model.dart';
+import 'package:cell_avenue_store/utilities/general.dart';
 import 'package:cell_avenue_store/utilities/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardingBody extends StatelessWidget {
   OnBoardingBody({
@@ -43,9 +45,11 @@ class OnBoardingBody extends StatelessWidget {
                           children: [
                             Card(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(140.0)),
+                                  borderRadius: BorderRadius.circular(40.0)),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(40.0),
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(40.0),
+                                    bottomRight: Radius.circular(40.0)),
                                 child: Image.network(
                                   "${content[index].imageURL}",
                                   fit: BoxFit.fill,
@@ -94,7 +98,10 @@ class OnBoardingBody extends StatelessWidget {
                           ),
                         ],
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
                   ],
                 ),
               ),
@@ -125,8 +132,8 @@ class OnBoardingBody extends StatelessWidget {
                         decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
+                                Theme.of(context).primaryColorLight,
                                 Theme.of(context).primaryColor,
-                                Theme.of(context).accentColor,
                               ],
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
@@ -144,7 +151,11 @@ class OnBoardingBody extends StatelessWidget {
                             ]),
                         child: Center(
                           child: GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+
+                              await prefs.setBool('onboarding', true);
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                       builder: (context) =>
@@ -156,7 +167,7 @@ class OnBoardingBody extends StatelessWidget {
                                           )));
                             },
                             child: Text(
-                              'Lets Go',
+                              General.getTranslatedText(context, "LetsGo"),
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -167,31 +178,14 @@ class OnBoardingBody extends StatelessWidget {
                             ),
                           ),
                         )))
-
-                // ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //         shadowColor: Theme.of(context).accentColor,
-                //         primary: Theme.of(context).primaryColor,
-                //         fixedSize: Size(200, 50)),
-                //     onPressed: () {
-                //       Navigator.of(context)
-                //           .pushReplacement(MaterialPageRoute(
-                //               builder: (context) => ChangeNotifierProvider(
-                //                     builder: (context, _) => BottomBar(),
-                //                     create: (context) =>
-                //                         BottomNavBarViewModel(),
-                //                   )));
-                //     },
-                //     child: Text(
-                //       'Lets Go',
-                //       style: TextStyle(
-                //           color: Colors.white, fontWeight: FontWeight.bold),
-                //     )))
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       TextButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            final prefs = await SharedPreferences.getInstance();
+
+                            await prefs.setBool('onboarding', true);
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                     builder: (context) =>
@@ -201,14 +195,16 @@ class OnBoardingBody extends StatelessWidget {
                                               BottomNavBarViewModel(),
                                         )));
                           },
-                          child: Text('Skip')),
+                          child:
+                              Text(General.getTranslatedText(context, "Skip"))),
                       TextButton(
                           onPressed: () {
                             _pageController.nextPage(
                                 duration: Duration(milliseconds: 1000),
                                 curve: Curves.easeInOutCubicEmphasized);
                           },
-                          child: Text('next'))
+                          child:
+                              Text(General.getTranslatedText(context, "Next")))
                     ],
                   ),
             SizedBox(

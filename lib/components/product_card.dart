@@ -51,7 +51,7 @@ class _ProdectsCartState extends State<ProdectsCart> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20.0),
                       child: Image.network(
-                        widget.product.images[0].src,
+                        "${widget.product.images[0].src}",
                         height: getScreenHeight() / 5,
                         width: getScreenWidth() / 5,
                         fit: BoxFit.contain,

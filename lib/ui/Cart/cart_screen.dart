@@ -23,8 +23,8 @@ class CartScreen extends StatelessWidget {
             javascriptMode: JavascriptMode.unrestricted,
             initialUrl: "https://cellavenuestore.com/cart/",
             onPageFinished: (url) {
-              controller.runJavascript(
-                  "document.getElementsByTagName('header')[0].style.display='none'");
+              // controller.runJavascript(
+              //     "document.getElementsByTagName('header')[0].style.display='none'");
               controller.runJavascript(
                   "document.getElementsByTagName('footer')[0].style.display='none'");
             },

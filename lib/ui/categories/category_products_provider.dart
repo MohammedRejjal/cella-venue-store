@@ -1,41 +1,42 @@
 import 'dart:convert';
+import 'dart:core';
 
-import 'package:cell_avenue_store/components/loading.dart';
+import 'package:cell_avenue_store/models/category.dart';
 import 'package:cell_avenue_store/models/product.dart';
-import 'package:cell_avenue_store/ui/home/home%20view/home_view.dart';
 import 'package:cell_avenue_store/utilities/constants.dart';
 import 'package:cell_avenue_store/utilities/http_requests.dart';
 import 'package:flutter/material.dart';
 
-class SearchProvider with ChangeNotifier {
-  var scrollController = ScrollController();
-  var products = <Product>[];
-  var page = 1;
-  var totalPage = 1;
-  String textSearch = '';
+class CategoryProductsProvider with ChangeNotifier {
   bool isLoading = false;
   var url = '';
-
+  var page = 1;
+  var totalPage = 1;
+  String categoryType = '1302';
+  final scrollController = ScrollController();
+  var products = <Product>[];
   BuildContext? context;
 
-  // buildSearchCard() {
-  //   return BuildListOfCardWidget(Items: "search=${textSearch}");
-  // }
+  changeid(String id) {
+    categoryType = id;
+    // notifyListeners();
+  }
 
   Future<void> reloadProduct(String value, context) async {
+    print("value ==== $value");
     products.clear();
-    textSearch = value;
+    categoryType = value;
     page = 1;
     notifyListeners();
   }
 
-  Future<List<Product>> searchProduct(context) async {
+  Future<List<Product>> CategoriesProduct(context) async {
     if (products.isNotEmpty) return products;
     this.url = Constants.BASE_URL +
         Constants.products +
         Constants.wooAuth +
         '&page=1&per_page=10&status=publish&stock_status=instock&' +
-        "search=$textSearch";
+        "category=$categoryType";
     this.context = context;
     await HttpRequests.httpGetRequest(context, url, {}, (value, map) {
       print("object------------------------------------++");
@@ -47,6 +48,7 @@ class SearchProvider with ChangeNotifier {
       scrollController.addListener(_scrollListener);
     }, () {});
     // notifyListeners();
+
     return products;
   }
 

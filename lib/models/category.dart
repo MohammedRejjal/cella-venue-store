@@ -185,12 +185,12 @@ class Collection {
 
 class Translations {
   Translations({
-    this.ar,
     this.en,
+    this.ar,
   });
 
-  String? ar;
   String? en;
+  String? ar;
 
   factory Translations.fromJson(String str) =>
       Translations.fromMap(json.decode(str));
@@ -198,12 +198,12 @@ class Translations {
   String toJson() => json.encode(toMap());
 
   factory Translations.fromMap(Map<String, dynamic> json) => Translations(
-        ar: json["ar"] == null ? null : json["ar"],
-        en: json["en"] == null ? null : json["en"],
+        en: json["en"].toString(),
+        ar: json["ar"].toString(),
       );
 
   Map<String, dynamic> toMap() => {
-        "ar": ar == null ? null : ar,
-        "en": en == null ? null : en,
+        "en": en,
+        "ar": ar,
       };
 }

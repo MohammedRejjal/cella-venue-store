@@ -3,10 +3,10 @@ import 'dart:math';
 
 import 'package:cell_avenue_store/models/category.dart';
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar_view_model.dart';
-import 'package:cell_avenue_store/ui/categories/category_provider.dart';
+import 'package:cell_avenue_store/ui/categories/categories_provider.dart';
+import 'package:cell_avenue_store/ui/categories/category_products_provider.dart';
 import 'package:cell_avenue_store/ui/home/home_provider.dart';
 import 'package:cell_avenue_store/ui/Cart/cart_screen.dart';
-import 'package:cell_avenue_store/ui/categories/category_screen.dart';
 import 'package:cell_avenue_store/ui/home/home%20view/home_view.dart';
 import 'package:flutter/cupertino.dart';
 // import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -23,7 +23,6 @@ class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig(context);
-
     // PersistentTabController _controller;
 
     // _controller = PersistentTabController(initialIndex: 1);

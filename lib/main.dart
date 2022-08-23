@@ -1,3 +1,5 @@
+import 'package:cell_avenue_store/ui/categories/categories_provider.dart';
+import 'package:cell_avenue_store/ui/categories/category_products_provider.dart';
 import 'package:cell_avenue_store/ui/splash_screen/Splashscreen.dart';
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar_view_model.dart';
 import 'package:cell_avenue_store/ui/home/home_provider.dart';
@@ -5,6 +7,7 @@ import 'package:cell_avenue_store/ui/Home/home%20view/home_view.dart';
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:cell_avenue_store/ui/search/search_provider.dart';
 import 'package:cell_avenue_store/ui/splash_screen/Splashscreen.dart';
+import 'package:cell_avenue_store/ui/categories/slide_categories_screen.dart';
 import 'package:cell_avenue_store/utilities/general.dart';
 import 'package:flutter/material.dart';
 import 'package:klocalizations_flutter/klocalizations_flutter.dart';
@@ -48,34 +51,41 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var localSnapshot = Provider.of<KLocalizations>(context);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // navigatorObservers: [
-      //   FirebaseAnalyticsObserver(analytics: analytics),
-      // ],
-      localizationsDelegates: [
-        // ... app-specific localization delegate[s] here
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        localSnapshot.delegate,
-      ],
-      supportedLocales: localSnapshot.supportedLocales,
-      locale: localSnapshot.locale,
-      title: 'cell avenue store',
-      theme: ThemeData(
-        primarySwatch: createMaterialColor(Color(0xFF632a7e)),
-        accentColor: Color(0xFFfecf09),
-        appBarTheme: AppBarTheme(
-            elevation: 0,
-            centerTitle: true,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
-            ))),
-      ),
-      home: SplashScreen(),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => CategoryProductsProvider(),
+          ),
+          ChangeNotifierProvider(create: (context) => CategoriesProvider())
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          // navigatorObservers: [
+          //   FirebaseAnalyticsObserver(analytics: analytics),
+          // ],
+          localizationsDelegates: [
+            // ... app-specific localization delegate[s] here
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            localSnapshot.delegate,
+          ],
+          supportedLocales: localSnapshot.supportedLocales,
+          locale: localSnapshot.locale,
+          title: 'cell avenue store',
+          theme: ThemeData(
+            primarySwatch: createMaterialColor(Color(0xFF632a7e)),
+            accentColor: Color(0xFFfecf09),
+            appBarTheme: AppBarTheme(
+                elevation: 0,
+                centerTitle: true,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ))),
+          ),
+          home: SplashScreen(),
+        ));
   }
 }
