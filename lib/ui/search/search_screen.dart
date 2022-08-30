@@ -27,13 +27,14 @@ class SearchScreen extends StatelessWidget {
         body: Stack(
           children: [
             Container(
-              height: getScreenHeight() /  4,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(60),
-                    bottomLeft: Radius.circular(60)),
-                color: Theme.of(context).primaryColor,
-              ),
+              color: Theme.of(context).primaryColor,
+              height: getScreenHeight(),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.only(
+              //       bottomRight: Radius.circular(60),
+              //       bottomLeft: Radius.circular(60)),
+              //
+              // ),
             ),
             Column(
               children: [
@@ -42,7 +43,7 @@ class SearchScreen extends StatelessWidget {
                 ),
                 SearchTextField(readonly: false),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 _buildGridProduct(context),
                 // Expanded(child: BuildGrid())
@@ -56,59 +57,81 @@ class SearchScreen extends StatelessWidget {
 _buildGridProduct(context) {
   var viewModel = Provider.of<SearchProvider>(context);
   return Expanded(
-    child: Column(
-      children: [
-        if (viewModel.textSearch.isNotEmpty)
-          Expanded(
-            child: FutureBuilder(
-              future: viewModel.searchProduct(context),
-              builder: (_, AsyncSnapshot<List<Product>> snapshot) {
-                if (snapshot.hasData && viewModel.products.isNotEmpty) {
-                  return GridView.builder(
-                    physics: BouncingScrollPhysics(),
-                    controller: viewModel.scrollController,
-                    itemCount: viewModel.products.length,
-                    scrollDirection: Axis.vertical,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: .78,
-                      crossAxisCount: 2,
-                    ),
-                    itemBuilder: (context, index) {
-                      return ProdectsCart(
-                        product: viewModel.products[index],
+      child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(60), topRight: Radius.circular(60)),
+              color: Colors.white),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 50,
+              ),
+              if (viewModel.textSearch.isNotEmpty)
+                Expanded(
+                  child: FutureBuilder(
+                    future: viewModel.searchProduct(context),
+                    builder: (_, AsyncSnapshot<List<Product>> snapshot) {
+                      if (snapshot.hasData && viewModel.products.isNotEmpty) {
+                        return GridView.builder(
+                          physics: BouncingScrollPhysics(),
+                          controller: viewModel.scrollController,
+                          itemCount: viewModel.products.length,
+                          scrollDirection: Axis.vertical,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: .78,
+                            crossAxisCount: 2,
+                          ),
+                          itemBuilder: (context, index) {
+                            return ProdectsCart(
+                              product: viewModel.products[index],
+                            );
+                          },
+                        );
+                      } else if (snapshot.hasData &&
+                          viewModel.products.isEmpty &&
+                          snapshot.connectionState == ConnectionState.done)
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset('assets/files/search.json',
+                                  width: 250, height: 250),
+                              Text(
+                                General.getTranslatedText(
+                                    context, 'searchNotFound'),
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        );
+                      return Center(
+                        child: Loading(),
                       );
                     },
-                  );
-                } else if (snapshot.hasData &&
-                    viewModel.products.isEmpty &&
-                    snapshot.connectionState == ConnectionState.done)
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Lottie.asset('assets/files/search.json',
-                            width: 250, height: 250),
-                        Text(
-                          General.getTranslatedText(context, 'searchNotFound'),
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  );
-                return Center(
+                  ),
+                ),
+              if (viewModel.isLoading)
+                Center(
                   child: Loading(),
-                );
-              },
-            ),
-          ),
-        if (viewModel.isLoading)
-          Center(
-            child: Loading(),
-          ),
-      ],
-    ),
-  );
+                ),
+              if (viewModel.textSearch.isEmpty)
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Lottie.asset(
+                        'assets/files/search.json',
+                        repeat: true,
+                        width: getScreenWidth() / 3,
+                      ),
+                    ),
+                  ],
+                )
+            ],
+          )));
 }
 
 class BuildGrid extends StatelessWidget {
