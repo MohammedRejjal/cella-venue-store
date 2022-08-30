@@ -27,7 +27,7 @@ class SearchScreen extends StatelessWidget {
         body: Stack(
           children: [
             Container(
-              height: getScreenHeight() / 4,
+              height: getScreenHeight() /  4,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(60),
