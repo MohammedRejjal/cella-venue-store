@@ -1,12 +1,13 @@
 import 'package:cell_avenue_store/components/loading.dart';
 import 'package:cell_avenue_store/components/product_card.dart';
 import 'package:cell_avenue_store/models/product.dart';
+import 'package:cell_avenue_store/noConnection.dart';
 import 'package:cell_avenue_store/ui/categories/categories_provider.dart';
 import 'package:cell_avenue_store/ui/categories/category_products_provider.dart';
 import 'package:cell_avenue_store/utilities/general.dart';
 import 'package:flutter/material.dart';
 import 'package:cell_avenue_store/models/category.dart';
-
+import 'package:cell_avenue_store/main.dart' as m;
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -16,6 +17,7 @@ class SlideCategories extends StatelessWidget {
   final ItemScrollController itemScrollController = ItemScrollController();
 
   SlideCategories({Key? key}) : super(key: key);
+
   void animateToIndex(int index) {
     itemScrollController.jumpTo(index: index, alignment: .5);
   }
@@ -30,7 +32,7 @@ class SlideCategories extends StatelessWidget {
       child: OutlinedButton(
         onPressed: () {
           //   setState(() {
-          viewModel.categoryType = text.id.toString();
+
           viewModelCategories.changeValue(index);
           viewModel.changeid(text.id.toString());
           viewModel.reloadProduct(text.id.toString(), context);
@@ -80,13 +82,9 @@ class SlideCategories extends StatelessWidget {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         viewModel.changeid(snapshot.data!.first.id.toString());
 
-                        print(viewModelCategories.index);
                         animateToIndex(viewModelCategories.index);
                       });
                       List<Category> data = snapshot.data!;
-
-                      viewModel.categoryType =
-                          snapshot.data!.first.id.toString();
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(
@@ -128,25 +126,31 @@ class SlideCategories extends StatelessWidget {
                 }
               },
             ),
-            viewModel.categoryType == ""
-                ? Center(
-                    child: Loading(),
-                  )
-                : buildGridProduct(context)
+            if (Provider.of<CategoryProductsProvider>(context, listen: false)
+                    .categoryType !=
+                "wait")
+              buildGridProduct(context)
+            else
+              Center(
+                child: Loading(),
+              )
           ],
         ),
       ),
     );
   }
 
-  buildGridProduct(context) {
+  buildGridProduct(
+    context,
+  ) {
     var viewModel = Provider.of<CategoryProductsProvider>(context);
 
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          if (viewModel.categoryType.isNotEmpty)
+          if (viewModel.categoryType.isNotEmpty ||
+              viewModel.categoryType == "wait")
             Expanded(
                 child: FutureBuilder(
               future: viewModel.CategoriesProduct(context),

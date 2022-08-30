@@ -20,29 +20,45 @@ class SearchScreen extends StatelessWidget {
     var viewModelSearch = Provider.of<SearchProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Cell Avenue Store"),
-      ),
-      body: Column(
-        children: [
-          SizedBox(height: 10,),
-          SearchTextField(readonly: false),
-          SizedBox(height: 10,),
-          _buildGridProduct(context),
-          // Expanded(child: BuildGrid())
-        ],
-      ),
-    );
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Cell Avenue Store"),
+        ),
+        body: Stack(
+          children: [
+            Container(
+              height: getScreenHeight() / 4,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(60),
+                    bottomLeft: Radius.circular(60)),
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            Column(
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                SearchTextField(readonly: false),
+                SizedBox(
+                  height: 10,
+                ),
+                _buildGridProduct(context),
+                // Expanded(child: BuildGrid())
+              ],
+            )
+          ],
+        ));
   }
 }
 
-_buildGridProduct(context){
+_buildGridProduct(context) {
   var viewModel = Provider.of<SearchProvider>(context);
   return Expanded(
     child: Column(
       children: [
-        if(viewModel.textSearch.isNotEmpty)
+        if (viewModel.textSearch.isNotEmpty)
           Expanded(
             child: FutureBuilder(
               future: viewModel.searchProduct(context),
@@ -53,8 +69,7 @@ _buildGridProduct(context){
                     controller: viewModel.scrollController,
                     itemCount: viewModel.products.length,
                     scrollDirection: Axis.vertical,
-                    gridDelegate:
-                    SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: .78,
                       crossAxisCount: 2,
                     ),
@@ -64,13 +79,20 @@ _buildGridProduct(context){
                       );
                     },
                   );
-                }else if(snapshot.hasData && viewModel.products.isEmpty && snapshot.connectionState == ConnectionState.done)
+                } else if (snapshot.hasData &&
+                    viewModel.products.isEmpty &&
+                    snapshot.connectionState == ConnectionState.done)
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Lottie.asset('assets/files/search.json',width: 250,height: 250),
-                        Text(General.getTranslatedText(context, 'searchNotFound'),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)
+                        Lottie.asset('assets/files/search.json',
+                            width: 250, height: 250),
+                        Text(
+                          General.getTranslatedText(context, 'searchNotFound'),
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
                   );
@@ -80,7 +102,7 @@ _buildGridProduct(context){
               },
             ),
           ),
-        if(viewModel.isLoading)
+        if (viewModel.isLoading)
           Center(
             child: Loading(),
           ),
@@ -99,7 +121,7 @@ class BuildGrid extends StatelessWidget {
     var viewModelSearch = Provider.of<SearchProvider>(context);
     return viewModelSearch.products.isNotEmpty
         ? Expanded(
-          child: FutureBuilder<List<Product>>(
+            child: FutureBuilder<List<Product>>(
               future: viewModelSearch.searchProduct(context),
               builder: (BuildContext context, snapshot) {
                 if (snapshot.hasData) {
@@ -139,7 +161,7 @@ class BuildGrid extends StatelessWidget {
                 }
               },
             ),
-        )
+          )
         : SizedBox();
   }
 }

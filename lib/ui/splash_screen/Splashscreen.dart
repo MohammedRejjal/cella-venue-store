@@ -45,8 +45,8 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // logo here
-            Image.network(
-              'https://cellavenuestore.com/wp-content/uploads/2021/09/cell-avenue-logo-ai.png',
+            Image.asset(
+              'assets/cell-avenue-logo-ai.png',
               height: 120,
             ),
             SizedBox(

@@ -47,4 +47,5 @@ abstract class Constants {
   static const IN_MAINTENANCE =
       kDebugMode ? 'debug_in_maintenance' : 'in_maintenance';
   static const APP_VERSION = kDebugMode ? 'debug_app_version' : 'app_version';
+  static const String CartScreenUrl = "https://cellavenuestore.com/cart/";
 }

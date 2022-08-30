@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:cell_avenue_store/models/category.dart';
+import 'package:cell_avenue_store/connectivity_provider.dart';
+import 'package:cell_avenue_store/models/category.dart' as ca;
+import 'package:cell_avenue_store/noConnection.dart';
 import 'package:cell_avenue_store/ui/bottom_nav_bar/bottom_nav_bar_view_model.dart';
 import 'package:cell_avenue_store/ui/categories/categories_provider.dart';
 import 'package:cell_avenue_store/ui/categories/category_products_provider.dart';
@@ -19,7 +21,17 @@ import 'package:cell_avenue_store/utilities/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BottomBar extends StatelessWidget {
+class BottomBar extends StatefulWidget {
+  @override
+  State<BottomBar> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<BottomBar> {
+  void initState() {
+    super.initState();
+    Provider.of<ConnectivityProvider>(context, listen: false).startMonitoring();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig(context);
@@ -28,10 +40,6 @@ class BottomBar extends StatelessWidget {
     // _controller = PersistentTabController(initialIndex: 1);
     var viewModel = Provider.of<BottomNavBarViewModel>(context);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Cell Avenue Store"),
-      ),
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.vertical(top: Radius.circular(21)),
         child: BottomNavigationBar(
@@ -44,7 +52,7 @@ class BottomBar extends StatelessWidget {
           currentIndex: viewModel.selectedIndex,
         ),
       ),
-      body: viewModel.screens[viewModel.selectedIndex],
+      body: pageUI(viewModel.screens[viewModel.selectedIndex]),
     );
 
     /*
@@ -113,5 +121,20 @@ class BottomBar extends StatelessWidget {
         //     inactiveColorPrimary: CupertinoColors.white,
       ),
     ];
+  }
+
+  Widget pageUI(Widget screen) {
+    return Consumer<ConnectivityProvider>(
+      builder: (consumerContext, model, child) {
+        if (model.isOnline != null) {
+          return model.isOnline! ? screen : NoConnection();
+        }
+        return Container(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
+    );
   }
 }

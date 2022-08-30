@@ -8,7 +8,7 @@ class HomeProvider with ChangeNotifier {
   Future<List<Product>> loadProducts(url, context) async {
     print("object++++++++");
     List<Product> products = [];
-
+    if (products.isNotEmpty) return products;
     await HttpRequests.httpGetRequest(context, url, {}, (value, map) {
       print("object------------------------------------");
       List list = json.decode(value);

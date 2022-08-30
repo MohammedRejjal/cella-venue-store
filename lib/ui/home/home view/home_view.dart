@@ -19,47 +19,110 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
 
+import '../../../noConnection.dart';
 import '../../search/search_provider.dart';
 import '../../search/search_screen.dart';
+import 'package:cell_avenue_store/main.dart' as m;
 
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var viewModel = Provider.of<HomeProvider>(context, listen: false);
     SizeConfig(context);
-    return Scaffold(
-      body: ListView(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          _buildSearchDesign(context),
-          _buildGrid(context,
-              viewModel: viewModel, item: "", title: "latestItems"),
-          SizedBox(
-            height: 5,
-          ),
-          _buildGrid(
-            context,
-            viewModel: viewModel,
-            item: "on_sale=true",
-            title: "Offers",
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          _buildGrid(
-            context,
-            viewModel: viewModel,
-            item: "featured=true",
-            title: "featured",
-          ),
-          SizedBox(
-            height: 15,
-          )
-        ],
-      ),
-    );
+    return SafeArea(
+        child: Scaffold(
+            body: Stack(
+      children: [
+        Container(
+          color: Theme.of(context).primaryColor,
+          height: getScreenHeight() / 4,
+        ),
+        Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        color: Colors.white,
+                        child: Image.asset(
+                          'assets/cell-avenue-logo-ai.png',
+                          height: 50,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: _buildSearchDesign(context),
+                  ),
+                  Container(
+                    height: 15,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(60),
+                          topRight: Radius.circular(60)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(60),
+                            topRight: Radius.circular(60)),
+                        color: Colors.white),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        _buildGrid(context,
+                            viewModel: viewModel,
+                            item: "",
+                            title: "latestItems"),
+                        _buildGrid(
+                          context,
+                          viewModel: viewModel,
+                          item: "on_sale=true",
+                          title: "Offers",
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        _buildGrid(
+                          context,
+                          viewModel: viewModel,
+                          item: "featured=true",
+                          title: "featured",
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ],
+    )));
   }
 
   _buildSearchDesign(BuildContext context) {
@@ -67,7 +130,7 @@ class HomeView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Material(
         borderRadius: BorderRadius.all(
-          Radius.circular(30),
+          Radius.circular(20),
         ),
         elevation: 4.0,
         shadowColor: Colors.black,
@@ -152,6 +215,12 @@ class HomeView extends StatelessWidget {
             if (snapshot.data!.isNotEmpty) {
               print(title + "${snapshot.data!.length}");
               return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(60),
+                      topLeft: Radius.circular(60)),
+                  color: Colors.white,
+                ),
                 height: getScreenHeight() / 2.4,
                 child: Column(
                   children: [
