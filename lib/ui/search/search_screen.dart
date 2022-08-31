@@ -123,7 +123,7 @@ _buildGridProduct(context) {
                   children: [
                     Center(
                       child: Lottie.asset(
-                        'assets/files/search.json',
+                        'assets/files/search3.json',
                         repeat: true,
                         width: getScreenWidth() / 3,
                       ),
